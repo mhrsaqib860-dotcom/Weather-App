@@ -1,31 +1,44 @@
-const Apikey = "e48cf03f59b6cb89d073828ac385f34d";
-const ApiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-const SearchBox = document.querySelector(".search input");
-const SearchBtn = document.querySelector(".search button");
+const apiKey = "e48cf03f59b6cb89d073828ac385f34d"; 
 
-async function checkWeather(city){
-    const responce = await fetch(ApiUrl + city + `&appid=${Apikey}` )
+function getWeather() {
+  const city = document.getElementById("cityInput").value;
 
-    if(responce.status == 404){
-        document.querySelector(".error").style.display = "block"
-        document.querySelector(".weather").style.display = "none"
-    }else{
-        var data = await responce.json();
+  if (city === "") {
+    alert("Please enter a city name");
+    return;
+  }
 
-        document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-    
-    
-        document.querySelector(".weather").style.display = "block";
-        document.querySelector(".error").style.display = "none"
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    }
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("cityName").innerText = data.name;
+      document.getElementById("temperature").innerText =
+        `Temperature: ${data.main.temp} °C`;
 
- 
+      document.getElementById("humidity").innerText =
+        `Humidity: ${data.main.humidity}%`;
+
+      document.getElementById("wind").innerText =
+        `Wind Speed: ${data.wind.speed} m/s`;
+
+      const weatherCondition = data.weather[0].main;
+      const icon = document.getElementById("weatherIcon");
+
+      if (weatherCondition === "Clear") {
+        icon.src = "https://cdn-icons-png.flaticon.com/512/869/869869.png";
+      } else if (weatherCondition === "Clouds") {
+        icon.src = "https://cdn-icons-png.flaticon.com/512/414/414825.png";
+      } else if (weatherCondition === "Rain") {
+        icon.src = "https://cdn-icons-png.flaticon.com/512/3076/3076129.png";
+      } else if (weatherCondition === "Snow") {
+        icon.src = "https://cdn-icons-png.flaticon.com/512/642/642102.png";
+      } else {
+        icon.src = "https://cdn-icons-png.flaticon.com/512/1163/1163661.png";
+      }
+    })
+    .catch(error => {
+      alert("City not found");
+    });
 }
-
-
-SearchBtn.addEventListener("click", ()=>{
-    checkWeather(SearchBox.value);
-})
-
