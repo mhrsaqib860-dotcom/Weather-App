@@ -74,6 +74,35 @@
     color: #ccc;
   }
   
+  @media (max-width: 480px){
+
+    body {
+      background: none;
+      display: block;
+      padding: 0;
+    }
+    .weather-container{
+      box-shadow: none;
+      border-radius: 0;
+      max-width: 100%;
+      width: 100%;
+      padding: 16px;
+
+    }
+    .weather-container h1{
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    input,button{
+      font-size: 15px;
+    }
+    .weather-result img{
+      width: 70px;
+    }
+    .weather-result p{
+      font-size: 14px;
+    }
+  }
 
   
   /* 📲 Tablet */

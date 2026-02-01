@@ -42,3 +42,9 @@ function getWeather() {
       alert("City not found");
     });
 }
+document.getElementById("cityInput")
+.addEventListener("keypress",function(event){
+  if(event.key === "Enter"){
+    getWeather();
+  }
+});
